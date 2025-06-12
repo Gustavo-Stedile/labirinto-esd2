@@ -68,7 +68,7 @@ class Window extends JFrame {
             .addActionListener(_ -> {
                 buscarEmLargura();
             });
-        }
+    }
     
     private JPanel createLabyrint() {
         JPanel gridPanel = new JPanel(new GridBagLayout());
