@@ -1,6 +1,6 @@
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 class Path extends JButton {
     private boolean marked;
@@ -14,11 +14,31 @@ class Path extends JButton {
         setBackground(marked ? Color.BLACK : Color.WHITE);
         return marked ? "#" : " ";
     }
+
+    public void disable() {
+        marked = false;
+        setBackground(Color.WHITE);
+    }
 }
 
 class Window extends JFrame {
-
+    private Footer footer;
+    
     private Labyrinth labyrinth = new Labyrinth(10, 10);
+    private Path[][] paths = new Path[10][10];
+    
+    public Window() {
+        props();
+        init();
+    }
+    
+    private void buscarEmProfundidade() {
+        System.out.println("buscando em profundidade...");
+    }
+
+    private void buscarEmLargura() {
+        System.out.println("buscando em largura...");
+    }
 
     private void props() {
         setTitle("título");
@@ -27,33 +47,64 @@ class Window extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void init() {
-        setLayout(new GridBagLayout());
+    private JPanel createLabyrint() {
+        JPanel gridPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 1.0; gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-
+    
         for (int i = 0; i < labyrinth.h(); i++) {
             for (int j = 0; j < labyrinth.w(); j++) {
                 int x = j; int y = i;
-
+    
                 gbc.gridx = x;
                 gbc.gridy = y;
-
+    
                 Path path = new Path();
+                paths[y][x] = path;
+
                 path.addActionListener(ev -> {
                     labyrinth.set(x, y, path.toggle());
                     labyrinth.show();
                 });
-
-                add(path, gbc);
+    
+                gridPanel.add(path, gbc);
             }
         }
-
+        return gridPanel;
     }
 
-    public Window() {
-        props();
-        init();
+    private void resetLabyrinth(ActionEvent ev) {
+        for (int y = 0; y < labyrinth.h(); y++) {
+            for (int x = 0; x < labyrinth.w(); x++) {
+                paths[y][x].disable();
+                labyrinth.set(x, y, " ");
+            }
+        }
+    }
+
+
+    private void init() {
+        add(createLabyrint());        
+
+        footer = new Footer();
+        add(footer, BorderLayout.SOUTH);
+
+        footer
+            .resetButton
+            .addActionListener(this::resetLabyrinth);
+        
+        footer
+            .profundidadeButton
+            .addActionListener(ev -> {
+                buscarEmProfundidade();
+            });
+
+        footer
+            .larguraButton
+            .addActionListener(ev -> {
+                buscarEmLargura();
+            });
+
     }
 }
