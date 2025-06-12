@@ -39,7 +39,7 @@ class Window extends JFrame {
     private void buscarEmLargura() {
         System.out.println("buscando em largura...");
     }
-
+    
     private void props() {
         setTitle("título");
         setSize(500, 500);
@@ -47,23 +47,46 @@ class Window extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    private void init() {
+        add(createLabyrint());        
+
+        footer = new Footer();
+        add(footer, BorderLayout.SOUTH);
+
+        footer
+            .resetButton
+            .addActionListener(this::resetLabyrinth);
+        
+        footer
+            .profundidadeButton
+            .addActionListener(_ -> {
+                buscarEmProfundidade();
+            });
+
+        footer
+            .larguraButton
+            .addActionListener(_ -> {
+                buscarEmLargura();
+            });
+        }
+    
     private JPanel createLabyrint() {
         JPanel gridPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 1.0; gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-    
+        
         for (int i = 0; i < labyrinth.h(); i++) {
             for (int j = 0; j < labyrinth.w(); j++) {
                 int x = j; int y = i;
-    
+                
                 gbc.gridx = x;
                 gbc.gridy = y;
-    
+                
                 Path path = new Path();
                 paths[y][x] = path;
-
-                path.addActionListener(ev -> {
+                
+                path.addActionListener(_ -> {
                     labyrinth.set(x, y, path.toggle());
                     labyrinth.show();
                 });
@@ -81,30 +104,5 @@ class Window extends JFrame {
                 labyrinth.set(x, y, " ");
             }
         }
-    }
-
-
-    private void init() {
-        add(createLabyrint());        
-
-        footer = new Footer();
-        add(footer, BorderLayout.SOUTH);
-
-        footer
-            .resetButton
-            .addActionListener(this::resetLabyrinth);
-        
-        footer
-            .profundidadeButton
-            .addActionListener(ev -> {
-                buscarEmProfundidade();
-            });
-
-        footer
-            .larguraButton
-            .addActionListener(ev -> {
-                buscarEmLargura();
-            });
-
     }
 }
