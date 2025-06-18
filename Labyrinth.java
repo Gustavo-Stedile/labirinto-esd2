@@ -1,6 +1,7 @@
 import java.awt.*;
-
 import javax.swing.*;
+
+import java.util.List;
 
 public class Labyrinth extends JPanel {
 
@@ -30,10 +31,18 @@ public class Labyrinth extends JPanel {
                 labyrinth[y][x] = Tile.EMPTY;
     }
 
+    public void solveLargura() {
+        LabyrinthGraph graph = new LabyrinthGraph(labyrinth);
+    }
+
     public void reset() {
         for (int y = 0; y < this.h; y++) {
-            for (int x = 0; x < this.w; x++)
+            for (int x = 0; x < this.w; x++) {
+                if (this.labyrinth[y][x] == Tile.START || this.labyrinth[y][x] == Tile.END)
+                    continue;
+
                 this.labyrinth[y][x] = tiles[y][x].set(Tile.EMPTY);
+            }
         }
     }
 

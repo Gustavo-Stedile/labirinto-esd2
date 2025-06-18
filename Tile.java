@@ -5,18 +5,20 @@ import java.util.Map;
 import javax.swing.JButton;
 
 class Tile extends JButton {
+    public static final String EMPTY = " ";
+    public static final String WALL = "#";
+    public static final String START = "0";
+    public static final String END = "1";
+    public static final String TRAVELED = "2";
+
     private static Map<String, Color> colorMapping = new HashMap<>();
     static {
         colorMapping.put(" ", Color.WHITE);
         colorMapping.put("#", Color.BLACK);
         colorMapping.put("0", Color.YELLOW);
         colorMapping.put("1", Color.GREEN);
+        colorMapping.put("2", Color.GRAY);
     }
-
-    public static final String EMPTY = " ";
-    public static final String WALL = "#";
-    public static final String START = "0";
-    public static final String END = "1";
 
     private String currChar = " ";
 
@@ -36,8 +38,8 @@ class Tile extends JButton {
     }
 
     public String set(String ch) {
+        currChar = ch;
         setBackground(colorMapping.get(currChar));
-        System.out.println(getBackground());
         return currChar;
     }
 

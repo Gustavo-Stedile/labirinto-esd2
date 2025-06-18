@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 class Window extends JFrame {
     private Footer footer;
@@ -10,14 +11,6 @@ class Window extends JFrame {
         init();
     }
 
-    private void buscarEmProfundidade() {
-        System.out.println("buscando em profundidade...");
-    }
-
-    private void buscarEmLargura() {
-        System.out.println("buscando em largura...");
-    }
-
     private void props() {
         setTitle("título");
         setSize(500, 500);
@@ -25,25 +18,25 @@ class Window extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void init() {
-        labyrinth = new Labyrinth(10, 10, new Point(0, 0), new Point(9, 9));
-
+    public void use(Labyrinth labyrinth) {
+        this.labyrinth = labyrinth;
         add(labyrinth, BorderLayout.CENTER);
+    }
 
+    public void onclickProfundidade(ActionListener listener) {
+        footer.profundidadeButton.addActionListener(listener);
+
+    }
+
+    public void onclickLargura(ActionListener listener) {
+        footer.larguraButton.addActionListener(listener);
+    }
+
+    private void init() {
         footer = new Footer();
         add(footer, BorderLayout.SOUTH);
 
         footer.resetButton
                 .addActionListener(_ -> labyrinth.reset());
-
-        footer.profundidadeButton
-                .addActionListener(_ -> {
-                    buscarEmProfundidade();
-                });
-
-        footer.larguraButton
-                .addActionListener(_ -> {
-                    buscarEmLargura();
-                });
     }
 }
