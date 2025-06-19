@@ -1,19 +1,28 @@
+package labirinto.core.gui;
+
 import javax.swing.*;
+
+import labirinto.core.Labyrinth;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-class Window extends JFrame {
+public class Window extends JFrame {
+    public final int WIDTH, HEIGHT;
+
     private Footer footer;
     private Labyrinth labyrinth;
 
-    public Window() {
+    public Window(int w, int h) {
+        WIDTH = w;
+        HEIGHT = h;
         props();
         init();
     }
 
     private void props() {
         setTitle("título");
-        setSize(500, 500);
+        setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }

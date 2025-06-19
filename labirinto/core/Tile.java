@@ -1,3 +1,5 @@
+package labirinto.core;
+
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,11 +15,11 @@ class Tile extends JButton {
 
     private static Map<String, Color> colorMapping = new HashMap<>();
     static {
-        colorMapping.put(" ", Color.WHITE);
-        colorMapping.put("#", Color.BLACK);
-        colorMapping.put("0", Color.YELLOW);
-        colorMapping.put("1", Color.GREEN);
-        colorMapping.put("2", Color.GRAY);
+        colorMapping.put(EMPTY, Color.WHITE);
+        colorMapping.put(WALL, Color.BLACK);
+        colorMapping.put(START, Color.YELLOW);
+        colorMapping.put(END, Color.GREEN);
+        colorMapping.put(TRAVELED, Color.GRAY);
     }
 
     private String currChar = " ";
